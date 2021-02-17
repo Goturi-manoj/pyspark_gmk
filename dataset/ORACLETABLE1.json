@@ -1,0 +1,16 @@
+{
+	"name": "ORACLETABLE1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_ONPREM_ORLC_DB",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "OracleTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "TECHLAKE",
+			"table": "EMP"
+		}
+	}
+}
