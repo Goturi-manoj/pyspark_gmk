@@ -6,42 +6,6 @@
 			"type": "string",
 			"metadata": "Data Factory name",
 			"defaultValue": "practiceaureadfv2-gmk"
-		},
-		"LS_ADLS_GEN1_SRC_servicePrincipalKey": {
-			"type": "secureString",
-			"metadata": "Secure string for 'servicePrincipalKey' of 'LS_ADLS_GEN1_SRC'"
-		},
-		"LS_AZURE_GEN2_TGT_accountKey": {
-			"type": "secureString",
-			"metadata": "Secure string for 'accountKey' of 'LS_AZURE_GEN2_TGT'"
-		},
-		"LS_ONPREM_ORLC_DB_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'LS_ONPREM_ORLC_DB'"
-		},
-		"LS_ADLS_GEN1_SRC_properties_typeProperties_dataLakeStoreUri": {
-			"type": "string",
-			"defaultValue": "https://gmkgen1storage.azuredatalakestore.net/webhdfs/v1"
-		},
-		"LS_ADLS_GEN1_SRC_properties_typeProperties_servicePrincipalId": {
-			"type": "string",
-			"defaultValue": "3016ff85-5469-45b1-8af7-c18d220bfe61"
-		},
-		"LS_ADLS_GEN1_SRC_properties_typeProperties_tenant": {
-			"type": "string",
-			"defaultValue": "b96c0f38-b91c-46f6-9ceb-e2f3a85e371e"
-		},
-		"LS_ADLS_GEN1_SRC_properties_typeProperties_subscriptionId": {
-			"type": "string",
-			"defaultValue": "48760eab-5c36-447f-9ee1-a7e29e6aa24d"
-		},
-		"LS_ADLS_GEN1_SRC_properties_typeProperties_resourceGroupName": {
-			"type": "string",
-			"defaultValue": "gmk"
-		},
-		"LS_AZURE_GEN2_TGT_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "https://gmkgen2.dfs.core.windows.net"
 		}
 	},
 	"variables": {
@@ -186,15 +150,13 @@
 						"inputs": [
 							{
 								"referenceName": "DS_ORCL_EMP_DATA",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						],
 						"outputs": [
 							{
 								"referenceName": "DS_GEN2_EMP_TGT",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						]
 					}
@@ -352,9 +314,7 @@
 					"table": "EMP"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/LS_ONPREM_ORLC_DB')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/LS_ADLS_GEN1_SRC')]",
@@ -364,15 +324,15 @@
 				"annotations": [],
 				"type": "AzureDataLakeStore",
 				"typeProperties": {
-					"dataLakeStoreUri": "[parameters('LS_ADLS_GEN1_SRC_properties_typeProperties_dataLakeStoreUri')]",
-					"servicePrincipalId": "[parameters('LS_ADLS_GEN1_SRC_properties_typeProperties_servicePrincipalId')]",
+					"dataLakeStoreUri": "https://gmkgen1storage.azuredatalakestore.net/webhdfs/v1",
+					"servicePrincipalId": "3016ff85-5469-45b1-8af7-c18d220bfe61",
 					"servicePrincipalKey": {
 						"type": "SecureString",
-						"value": "[parameters('LS_ADLS_GEN1_SRC_servicePrincipalKey')]"
+						"value": "**********"
 					},
-					"tenant": "[parameters('LS_ADLS_GEN1_SRC_properties_typeProperties_tenant')]",
-					"subscriptionId": "[parameters('LS_ADLS_GEN1_SRC_properties_typeProperties_subscriptionId')]",
-					"resourceGroupName": "[parameters('LS_ADLS_GEN1_SRC_properties_typeProperties_resourceGroupName')]"
+					"tenant": "b96c0f38-b91c-46f6-9ceb-e2f3a85e371e",
+					"subscriptionId": "48760eab-5c36-447f-9ee1-a7e29e6aa24d",
+					"resourceGroupName": "gmk"
 				}
 			},
 			"dependsOn": []
@@ -385,41 +345,12 @@
 				"annotations": [],
 				"type": "AzureBlobFS",
 				"typeProperties": {
-					"url": "[parameters('LS_AZURE_GEN2_TGT_properties_typeProperties_url')]",
+					"url": "https://gmkgen2.dfs.core.windows.net",
 					"accountKey": {
 						"type": "SecureString",
-						"value": "[parameters('LS_AZURE_GEN2_TGT_accountKey')]"
+						"value": "**********"
 					}
 				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/LS_ONPREM_ORLC_DB')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "Oracle",
-				"typeProperties": {
-					"connectionString": "[parameters('LS_ONPREM_ORLC_DB_connectionString')]"
-				},
-				"connectVia": {
-					"referenceName": "selfhosted-ir",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/selfhosted-ir')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/selfhosted-ir')]",
-			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "SelfHosted",
-				"typeProperties": {}
 			},
 			"dependsOn": []
 		},

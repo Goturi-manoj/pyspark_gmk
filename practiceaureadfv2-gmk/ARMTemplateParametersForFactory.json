@@ -5,8 +5,32 @@
 		"factoryName": {
 			"value": "practiceaureadfv2-gmk"
 		},
-		"LS_ORCL_SRC_DB_connectionString": {
+		"LS_ADLS_GEN1_SRC_servicePrincipalKey": {
 			"value": ""
+		},
+		"LS_AZURE_GEN2_TGT_accountKey": {
+			"value": ""
+		},
+		"LS_ONPREM_ORLC_DB_connectionString": {
+			"value": ""
+		},
+		"LS_ADLS_GEN1_SRC_properties_typeProperties_dataLakeStoreUri": {
+			"value": "https://gmkgen1storage.azuredatalakestore.net/webhdfs/v1"
+		},
+		"LS_ADLS_GEN1_SRC_properties_typeProperties_servicePrincipalId": {
+			"value": "3016ff85-5469-45b1-8af7-c18d220bfe61"
+		},
+		"LS_ADLS_GEN1_SRC_properties_typeProperties_tenant": {
+			"value": "b96c0f38-b91c-46f6-9ceb-e2f3a85e371e"
+		},
+		"LS_ADLS_GEN1_SRC_properties_typeProperties_subscriptionId": {
+			"value": "48760eab-5c36-447f-9ee1-a7e29e6aa24d"
+		},
+		"LS_ADLS_GEN1_SRC_properties_typeProperties_resourceGroupName": {
+			"value": "gmk"
+		},
+		"LS_AZURE_GEN2_TGT_properties_typeProperties_url": {
+			"value": "https://gmkgen2.dfs.core.windows.net"
 		}
 	}
 }

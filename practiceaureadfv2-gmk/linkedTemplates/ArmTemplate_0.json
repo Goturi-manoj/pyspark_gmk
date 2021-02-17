@@ -7,15 +7,85 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "practiceaureadfv2-gmk"
 		},
-		"LS_ORCL_SRC_DB_connectionString": {
+		"LS_ADLS_GEN1_SRC_servicePrincipalKey": {
 			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'LS_ORCL_SRC_DB'"
+			"metadata": "Secure string for 'servicePrincipalKey' of 'LS_ADLS_GEN1_SRC'"
+		},
+		"LS_AZURE_GEN2_TGT_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'LS_AZURE_GEN2_TGT'"
+		},
+		"LS_ONPREM_ORLC_DB_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'LS_ONPREM_ORLC_DB'"
+		},
+		"LS_ADLS_GEN1_SRC_properties_typeProperties_dataLakeStoreUri": {
+			"type": "string",
+			"defaultValue": "https://gmkgen1storage.azuredatalakestore.net/webhdfs/v1"
+		},
+		"LS_ADLS_GEN1_SRC_properties_typeProperties_servicePrincipalId": {
+			"type": "string",
+			"defaultValue": "3016ff85-5469-45b1-8af7-c18d220bfe61"
+		},
+		"LS_ADLS_GEN1_SRC_properties_typeProperties_tenant": {
+			"type": "string",
+			"defaultValue": "b96c0f38-b91c-46f6-9ceb-e2f3a85e371e"
+		},
+		"LS_ADLS_GEN1_SRC_properties_typeProperties_subscriptionId": {
+			"type": "string",
+			"defaultValue": "48760eab-5c36-447f-9ee1-a7e29e6aa24d"
+		},
+		"LS_ADLS_GEN1_SRC_properties_typeProperties_resourceGroupName": {
+			"type": "string",
+			"defaultValue": "gmk"
+		},
+		"LS_AZURE_GEN2_TGT_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://gmkgen2.dfs.core.windows.net"
 		}
 	},
 	"variables": {
 		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
 	},
 	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/LS_ADLS_GEN1_SRC')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureDataLakeStore",
+				"typeProperties": {
+					"dataLakeStoreUri": "[parameters('LS_ADLS_GEN1_SRC_properties_typeProperties_dataLakeStoreUri')]",
+					"servicePrincipalId": "[parameters('LS_ADLS_GEN1_SRC_properties_typeProperties_servicePrincipalId')]",
+					"servicePrincipalKey": {
+						"type": "SecureString",
+						"value": "[parameters('LS_ADLS_GEN1_SRC_servicePrincipalKey')]"
+					},
+					"tenant": "[parameters('LS_ADLS_GEN1_SRC_properties_typeProperties_tenant')]",
+					"subscriptionId": "[parameters('LS_ADLS_GEN1_SRC_properties_typeProperties_subscriptionId')]",
+					"resourceGroupName": "[parameters('LS_ADLS_GEN1_SRC_properties_typeProperties_resourceGroupName')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/LS_AZURE_GEN2_TGT')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobFS",
+				"typeProperties": {
+					"url": "[parameters('LS_AZURE_GEN2_TGT_properties_typeProperties_url')]",
+					"accountKey": {
+						"type": "SecureString",
+						"value": "[parameters('LS_AZURE_GEN2_TGT_accountKey')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
 		{
 			"name": "[concat(parameters('factoryName'), '/selfhosted-ir')]",
 			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
@@ -27,15 +97,143 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/LS_ORCL_SRC_DB')]",
+			"name": "[concat(parameters('factoryName'), '/DS_ADLS_DEPT_FILE_SRC')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_ADLS_GEN1_SRC",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureDataLakeStoreLocation",
+						"fileName": "dept.csv",
+						"folderPath": "SOURCE"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Deptno",
+						"type": "String"
+					},
+					{
+						"name": "Dname",
+						"type": "String"
+					},
+					{
+						"name": "Loc",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_ADLS_GEN1_SRC')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_ADLS_EMP_FILE_SRC')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_ADLS_GEN1_SRC",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureDataLakeStoreLocation",
+						"fileName": "emp.csv",
+						"folderPath": "SOURCE"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "EMPNO",
+						"type": "String"
+					},
+					{
+						"name": "ENAME",
+						"type": "String"
+					},
+					{
+						"name": "JOB",
+						"type": "String"
+					},
+					{
+						"name": "MGR",
+						"type": "String"
+					},
+					{
+						"name": "HIREDATE",
+						"type": "String"
+					},
+					{
+						"name": "SAL",
+						"type": "String"
+					},
+					{
+						"name": "COMM",
+						"type": "String"
+					},
+					{
+						"name": "DEPTNO",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_ADLS_GEN1_SRC')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_GEN2_EMP_TGT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_AZURE_GEN2_TGT",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileSystem": "gen2storage"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_AZURE_GEN2_TGT')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/LS_ONPREM_ORLC_DB')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"description": "On-premises source",
 				"annotations": [],
 				"type": "Oracle",
 				"typeProperties": {
-					"connectionString": "[parameters('LS_ORCL_SRC_DB_connectionString')]"
+					"connectionString": "[parameters('LS_ONPREM_ORLC_DB_connectionString')]"
 				},
 				"connectVia": {
 					"referenceName": "selfhosted-ir",
@@ -44,6 +242,237 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/integrationRuntimes/selfhosted-ir')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_ORCL_EMP_DATA')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_ONPREM_ORLC_DB",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "OracleTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "TECHLAKE",
+					"table": "EMP"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_ONPREM_ORLC_DB')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/JOINS')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "DS_ADLS_EMP_FILE_SRC",
+								"type": "DatasetReference"
+							},
+							"name": "srcEMP"
+						},
+						{
+							"dataset": {
+								"referenceName": "DS_ADLS_DEPT_FILE_SRC",
+								"type": "DatasetReference"
+							},
+							"name": "srcDEPT"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "DS_GEN2_EMP_TGT",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [
+						{
+							"name": "Join1"
+						},
+						{
+							"name": "Filter1"
+						},
+						{
+							"name": "Sort1"
+						}
+					],
+					"script": "source(output(\n\t\tEMPNO as string,\n\t\tENAME as string,\n\t\tJOB as string,\n\t\tMGR as string,\n\t\tHIREDATE as string,\n\t\tSAL as string,\n\t\tCOMM as string,\n\t\tDEPTNO as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> srcEMP\nsource(output(\n\t\tDeptno as string,\n\t\tDname as string,\n\t\tLoc as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> srcDEPT\nsrcEMP, srcDEPT join(srcEMP@DEPTNO == srcDEPT@Deptno,\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> Join1\nJoin1 filter(srcEMP@DEPTNO=='10') ~> Filter1\nFilter1 sort(desc(EMPNO, true),\n\tcaseInsensitive: true) ~> Sort1\nSort1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sink1"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DS_ADLS_EMP_FILE_SRC')]",
+				"[concat(variables('factoryId'), '/datasets/DS_ADLS_DEPT_FILE_SRC')]",
+				"[concat(variables('factoryId'), '/datasets/DS_GEN2_EMP_TGT')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/onpremdb_gen2_copy_pipeline')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "ORCL_GEN2_COPY",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "OracleSource",
+								"partitionOption": "None",
+								"queryTimeout": "02:00:00"
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": "EMPDATACOPY.txt"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "EMPNO",
+											"type": "Decimal"
+										},
+										"sink": {
+											"name": "EMPNO",
+											"type": "Decimal",
+											"physicalType": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "ENAME",
+											"type": "String"
+										},
+										"sink": {
+											"name": "ENAME",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "JOB",
+											"type": "String"
+										},
+										"sink": {
+											"name": "JOB",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "MGR",
+											"type": "Decimal"
+										},
+										"sink": {
+											"name": "MGR",
+											"type": "Decimal",
+											"physicalType": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "HIREDATE",
+											"type": "DateTime"
+										},
+										"sink": {
+											"name": "HIREDATE",
+											"type": "DateTime",
+											"physicalType": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"name": "SAL",
+											"type": "Decimal"
+										},
+										"sink": {
+											"name": "SAL",
+											"type": "Decimal",
+											"physicalType": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "COMM",
+											"type": "Decimal"
+										},
+										"sink": {
+											"name": "COMM",
+											"type": "Decimal",
+											"physicalType": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "DEPTNO",
+											"type": "Decimal"
+										},
+										"sink": {
+											"name": "DEPTNO",
+											"type": "Decimal",
+											"physicalType": "Decimal"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DS_ORCL_EMP_DATA",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DS_GEN2_EMP_TGT",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DS_ORCL_EMP_DATA')]",
+				"[concat(variables('factoryId'), '/datasets/DS_GEN2_EMP_TGT')]"
 			]
 		}
 	]
