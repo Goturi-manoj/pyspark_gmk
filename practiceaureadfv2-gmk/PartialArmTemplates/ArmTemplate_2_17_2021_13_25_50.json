@@ -1,0 +1,37 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "practiceaureadfv2-gmk"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/LS_ADLS_GEN1_SRC')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureDataLakeStore",
+				"typeProperties": {
+					"dataLakeStoreUri": "https://gmkgen1storage.azuredatalakestore.net/webhdfs/v1",
+					"servicePrincipalId": "3016ff85-5469-45b1-8af7-c18d220bfe61",
+					"servicePrincipalKey": {
+						"type": "SecureString",
+						"value": "**********"
+					},
+					"tenant": "b96c0f38-b91c-46f6-9ceb-e2f3a85e371e",
+					"subscriptionId": "48760eab-5c36-447f-9ee1-a7e29e6aa24d",
+					"resourceGroupName": "gmk"
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}
