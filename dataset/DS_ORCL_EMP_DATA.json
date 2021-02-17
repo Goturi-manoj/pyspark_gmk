@@ -1,5 +1,5 @@
 {
-	"name": "ORACLETABLE1",
+	"name": "DS_ORCL_EMP_DATA",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "LS_ONPREM_ORLC_DB",
