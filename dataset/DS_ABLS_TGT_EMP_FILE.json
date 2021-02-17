@@ -1,10 +1,6 @@
 {
 	"name": "DS_ABLS_TGT_EMP_FILE",
 	"properties": {
-		"linkedServiceName": {
-			"referenceName": "LS_ABLS_GEN2_TGT_FILE",
-			"type": "LinkedServiceReference"
-		},
 		"annotations": [],
 		"type": "DelimitedText",
 		"typeProperties": {
