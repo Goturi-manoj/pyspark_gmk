@@ -5,14 +5,8 @@
 		"factoryName": {
 			"value": "practiceaureadfv2-gmk"
 		},
-		"LS_ABLS_GEN2_TGT_FILE_accountKey": {
-			"value": ""
-		},
 		"LS_ORCL_SRC_DB_connectionString": {
 			"value": ""
-		},
-		"LS_ABLS_GEN2_TGT_FILE_properties_typeProperties_url": {
-			"value": "https://datalakegen2gmk.dfs.core.windows.net"
 		},
 		"containerUri": {
 			"value": ""
