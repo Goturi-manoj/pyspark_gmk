@@ -1,0 +1,45 @@
+{
+	"name": "JOINS",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_ADLS_EMP_FILE_SRC",
+						"type": "DatasetReference"
+					},
+					"name": "srcEMP"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_ADLS_DEPT_FILE_SRC",
+						"type": "DatasetReference"
+					},
+					"name": "srcDEPT"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DS_GEN2_EMP_TGT",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "Join1"
+				},
+				{
+					"name": "Filter1"
+				},
+				{
+					"name": "Sort1"
+				}
+			],
+			"script": "source(output(\n\t\tEMPNO as string,\n\t\tENAME as string,\n\t\tJOB as string,\n\t\tMGR as string,\n\t\tHIREDATE as string,\n\t\tSAL as string,\n\t\tCOMM as string,\n\t\tDEPTNO as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> srcEMP\nsource(output(\n\t\tDeptno as string,\n\t\tDname as string,\n\t\tLoc as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> srcDEPT\nsrcEMP, srcDEPT join(srcEMP@DEPTNO == srcDEPT@Deptno,\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> Join1\nJoin1 filter(srcEMP@DEPTNO=='10') ~> Filter1\nFilter1 sort(desc(EMPNO, true),\n\tcaseInsensitive: true) ~> Sort1\nSort1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sink1"
+		}
+	}
+}
