@@ -1,0 +1,16 @@
+{
+	"name": "LS_ONPREM_ORLC_DB",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "Oracle",
+		"typeProperties": {
+			"connectionString": "host=localhost;port=1521;sid=XE;user id=techlake",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiIxYzA2ZmNjNC05NmQ0LTRiZTUtYTc2Mi0yMDEzYmY4N2FjMTQiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "selfhosted-ir",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}
