@@ -1,0 +1,22 @@
+{
+	"name": "DS_GEN2_EMP_TGT",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_AZURE_GEN2_TGT",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileSystem": "gen2storage"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}
