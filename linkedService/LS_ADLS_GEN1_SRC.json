@@ -1,0 +1,16 @@
+{
+	"name": "LS_ADLS_GEN1_SRC",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureDataLakeStore",
+		"typeProperties": {
+			"dataLakeStoreUri": "https://gmkgen1storage.azuredatalakestore.net/webhdfs/v1",
+			"servicePrincipalId": "3016ff85-5469-45b1-8af7-c18d220bfe61",
+			"tenant": "b96c0f38-b91c-46f6-9ceb-e2f3a85e371e",
+			"subscriptionId": "48760eab-5c36-447f-9ee1-a7e29e6aa24d",
+			"resourceGroupName": "gmk",
+			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIlBSQUNUSUNFQVVSRUFERlYyLUdNS180MTM2ZjRlMi00ZGZkLTQyYjQtODYzOC1hYTA0N2YxOTdjMGQiDQp9"
+		}
+	}
+}
