@@ -3,10 +3,30 @@
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {
-			"sources": [],
-			"sinks": [],
-			"transformations": [],
-			"script": ""
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_ADLS_UNPIVOT_CSV_SRC",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DS_GEN2_EMP_TGT",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "Unpivot1"
+				}
+			],
+			"script": "source(output(\n\t\torder_number as string,\n\t\tcustomer as string,\n\t\tapple as string,\n\t\tbanana as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> source1\nsource1 unpivot(output(\n\t\tNEW as string,\n\t\tQUANTITY as string\n\t),\n\tungroupBy(order_number,\n\t\tcustomer),\n\tlateral: false,\n\tignoreNullPivots: false) ~> Unpivot1\nUnpivot1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['UNPIVOT.TXT'],\n\tpartitionBy('hash', 1),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sink1"
 		}
 	}
 }
