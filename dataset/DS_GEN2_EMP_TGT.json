@@ -10,7 +10,6 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"folderPath": "left_outer_join",
 				"fileSystem": "gen2storage"
 			},
 			"columnDelimiter": ",",
