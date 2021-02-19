@@ -16,19 +16,19 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataset": {
-						"referenceName": "DS_BLOB_APPLE_FILE",
+						"referenceName": "DS_GEN_DEL",
 						"type": "DatasetReference"
 					},
 					"logStorageSettings": {
 						"linkedServiceName": {
-							"referenceName": "LS_BLOB_SRC",
+							"referenceName": "LS_AZURE_GEN2_TGT",
 							"type": "LinkedServiceReference"
 						},
-						"path": "blobfirstfile"
+						"path": "gen2storage/sources"
 					},
 					"enableLogging": true,
 					"storeSettings": {
-						"type": "AzureBlobStorageReadSettings",
+						"type": "AzureBlobFSReadSettings",
 						"recursive": true,
 						"enablePartitionDiscovery": false
 					}
