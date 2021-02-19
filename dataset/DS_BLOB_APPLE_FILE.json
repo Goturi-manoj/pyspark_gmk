@@ -10,6 +10,8 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
+				"fileName": "b6daa879-c72f-41b5-9ab7-4cfa26dc5de7.csv",
+				"folderPath": "f5c15e6d-f59e-48a5-a5d7-ed0ade3f18f6",
 				"container": "blobfirstfile"
 			}
 		}
