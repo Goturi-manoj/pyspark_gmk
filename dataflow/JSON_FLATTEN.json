@@ -1,0 +1,33 @@
+{
+	"name": "JSON_FLATTEN",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_GEN2_COMPANYJSON_SRC",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [],
+			"transformations": [
+				{
+					"name": "Flatten1"
+				},
+				{
+					"name": "Flatten2"
+				},
+				{
+					"name": "Flatten3"
+				},
+				{
+					"name": "Flatten4"
+				}
+			],
+			"script": "source(output(\n\t\tname as string,\n\t\tlocation as string,\n\t\tsatellites as string[],\n\t\tgoods as (trade as boolean, customers as string[], orders as (orderId as string, orderTotal as double, shipped as (orderItems as (itemName as string, itemQty as string)[]))[])\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tdocumentForm: 'singleDocument') ~> source1\nsource1 foldDown(unroll(satellites),\n\tmapColumn(\n\t\tname,\n\t\tlocation,\n\t\tsatellites = satellites,\n\t\tgoods\n\t),\n\tskipDuplicateMapInputs: false,\n\tskipDuplicateMapOutputs: false) ~> Flatten1\nFlatten1 foldDown(unroll(goods.customers),\n\tmapColumn(\n\t\tname,\n\t\tlocation,\n\t\tsatellites,\n\t\ttrade = goods.trade,\n\t\tcustomers = goods.customers,\n\t\torders = goods.orders\n\t),\n\tskipDuplicateMapInputs: false,\n\tskipDuplicateMapOutputs: false) ~> Flatten2\nFlatten2 foldDown(unroll(orders),\n\tmapColumn(\n\t\tname,\n\t\tlocation,\n\t\tsatellites,\n\t\ttrade,\n\t\tcustomers,\n\t\torderId = orders.orderId,\n\t\torderTotal = orders.orderTotal,\n\t\tshipped = orders.shipped\n\t),\n\tskipDuplicateMapInputs: false,\n\tskipDuplicateMapOutputs: false) ~> Flatten3\nFlatten3 foldDown(unroll(shipped.orderItems),\n\tmapColumn(\n\t\tname,\n\t\tlocation,\n\t\tsatellites,\n\t\ttrade,\n\t\tcustomers,\n\t\torderId,\n\t\torderTotal,\n\t\titemName = shipped.orderItems.itemName,\n\t\titemQty = shipped.orderItems.itemQty\n\t),\n\tskipDuplicateMapInputs: false,\n\tskipDuplicateMapOutputs: false) ~> Flatten4"
+		}
+	}
+}
