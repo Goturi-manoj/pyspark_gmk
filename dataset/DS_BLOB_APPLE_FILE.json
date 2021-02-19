@@ -1,0 +1,18 @@
+{
+	"name": "DS_BLOB_APPLE_FILE",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_BLOB_SRC",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "apple.csv",
+				"container": "blobfirstfile"
+			}
+		}
+	}
+}
