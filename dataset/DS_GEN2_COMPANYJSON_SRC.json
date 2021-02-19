@@ -1,0 +1,83 @@
+{
+	"name": "DS_GEN2_COMPANYJSON_SRC",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_AZUREGEN2_SRC",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "company.json",
+				"folderPath": "sources",
+				"fileSystem": "gen2storage"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"name": {
+					"type": "string"
+				},
+				"location": {
+					"type": "string"
+				},
+				"satellites": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"goods": {
+					"type": "object",
+					"properties": {
+						"trade": {
+							"type": "boolean"
+						},
+						"customers": {
+							"type": "array",
+							"items": {
+								"type": "string"
+							}
+						},
+						"orders": {
+							"type": "array",
+							"items": {
+								"type": "object",
+								"properties": {
+									"orderId": {
+										"type": "integer"
+									},
+									"orderTotal": {
+										"type": "number"
+									},
+									"shipped": {
+										"type": "object",
+										"properties": {
+											"orderItems": {
+												"type": "array",
+												"items": {
+													"type": "object",
+													"properties": {
+														"itemName": {
+															"type": "string"
+														},
+														"itemQty": {
+															"type": "integer"
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
