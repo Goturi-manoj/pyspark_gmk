@@ -21,7 +21,7 @@
 					},
 					"activities": [
 						{
-							"name": "Execute Pipeline1",
+							"name": "child_load_pipeline",
 							"type": "ExecutePipeline",
 							"dependsOn": [],
 							"userProperties": [],
