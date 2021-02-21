@@ -22,7 +22,7 @@
 			"location": {
 				"type": "AzureDataLakeStoreLocation",
 				"fileName": {
-					"value": "@concat(dataset().Directory)",
+					"value": "@concat(dataset().Directory,'/',dataset().FileName)",
 					"type": "Expression"
 				},
 				"folderPath": "staging"
