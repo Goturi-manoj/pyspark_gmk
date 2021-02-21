@@ -6,7 +6,7 @@
 			"type": "LinkedServiceReference"
 		},
 		"parameters": {
-			"Folder": {
+			"FolderPath": {
 				"type": "string"
 			},
 			"Directory": {
@@ -22,9 +22,10 @@
 			"location": {
 				"type": "AzureDataLakeStoreLocation",
 				"fileName": {
-					"value": "@concat(dataset().Directory,'/',dataset().Folder)",
+					"value": "@concat(dataset().Directory,'/',dataset().FolderPath)",
 					"type": "Expression"
-				}
+				},
+				"folderPath": "staging"
 			}
 		}
 	}
