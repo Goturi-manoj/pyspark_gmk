@@ -53,7 +53,11 @@
 						}
 					},
 					"fieldList": [
-						"childItems"
+						"childItems",
+						"exists",
+						"itemName",
+						"itemType",
+						"lastModified"
 					],
 					"storeSettings": {
 						"type": "AzureDataLakeStoreReadSettings",
@@ -79,7 +83,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@activity('Get Metadata2').output.value",
+						"value": "@activity('Filter1').output.childitems",
 						"type": "Expression"
 					},
 					"activities": [
