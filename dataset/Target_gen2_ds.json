@@ -9,7 +9,7 @@
 			"FolderPath": {
 				"type": "string"
 			},
-			"DIrectory": {
+			"Directory": {
 				"type": "string"
 			},
 			"filename": {

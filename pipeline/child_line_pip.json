@@ -124,11 +124,11 @@
 									"referenceName": "source_Adls_Ds",
 									"type": "DatasetReference",
 									"parameters": {
-										"Directory": {
+										"Folder": {
 											"value": "@pipeline().parameters.SourceStore_Location",
 											"type": "Expression"
 										},
-										"File": {
+										"Directory": {
 											"value": "@pipeline().parameters.SourceStore_Directory",
 											"type": "Expression"
 										},
@@ -148,7 +148,7 @@
 											"value": "@pipeline().parameters.TargetStore_Location",
 											"type": "Expression"
 										},
-										"DIrectory": {
+										"Directory": {
 											"value": "@pipeline().parameters.TargetStore_Directory",
 											"type": "Expression"
 										},
@@ -280,7 +280,7 @@
 			"SourceFilename": {
 				"type": "string"
 			},
-			"TargetFIlename": {
+			"TargetFilename": {
 				"type": "string"
 			}
 		},
