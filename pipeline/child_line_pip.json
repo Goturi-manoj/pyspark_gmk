@@ -240,6 +240,10 @@
 										"type": "String"
 									},
 									"starttime": {
+										"value": {
+											"value": "@activity('Copy data1').output.executionDetails[0].start",
+											"type": "Expression"
+										},
 										"type": "DateTime"
 									},
 									"writerows": {
