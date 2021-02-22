@@ -31,7 +31,25 @@
 									"referenceName": "child_line_pip",
 									"type": "PipelineReference"
 								},
-								"waitOnCompletion": true
+								"waitOnCompletion": true,
+								"parameters": {
+									"SourceStore_Location": {
+										"value": "@item().src_folderpath",
+										"type": "Expression"
+									},
+									"SourceStore_Directory": {
+										"value": "@item().directory",
+										"type": "Expression"
+									},
+									"TargetStore_Location": {
+										"value": "@item().tgt_folderpath",
+										"type": "Expression"
+									},
+									"TargetStore_Directory": {
+										"value": "@item().directory",
+										"type": "Expression"
+									}
+								}
 							}
 						}
 					]
