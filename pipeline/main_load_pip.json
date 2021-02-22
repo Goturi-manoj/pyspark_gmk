@@ -34,11 +34,11 @@
 								"waitOnCompletion": true,
 								"parameters": {
 									"SourceStore_Location": {
-										"value": "@item().activity('Copy data1').output.executionDetails[0].status",
+										"value": "@item().src_folderpath",
 										"type": "Expression"
 									},
 									"SourceStore_Directory": {
-										"value": "@item.activity('Copy data1').output.executionDetails[0].status",
+										"value": "@item.directory",
 										"type": "Expression"
 									},
 									"TargetStore_Location": {

@@ -185,7 +185,7 @@
 									},
 									"activitystatus": {
 										"value": {
-											"value": "@activity('Copy data1').output.execution",
+											"value": "@activity('Copy data1').output.executionDetails[0].status",
 											"type": "Expression"
 										},
 										"type": "String"
@@ -240,10 +240,6 @@
 										"type": "String"
 									},
 									"starttime": {
-										"value": {
-											"value": "@activity('Copy data1').output.execution",
-											"type": "Expression"
-										},
 										"type": "DateTime"
 									},
 									"writerows": {
