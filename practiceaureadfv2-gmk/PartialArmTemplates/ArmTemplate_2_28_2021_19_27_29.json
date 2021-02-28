@@ -6,62 +6,6 @@
 			"type": "string",
 			"metadata": "Data Factory name",
 			"defaultValue": "practiceaureadfv2-gmk"
-		},
-		"AzureSqlDatabase1_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabase1'"
-		},
-		"LS_ADLS_GEN1_SRC_servicePrincipalKey": {
-			"type": "secureString",
-			"metadata": "Secure string for 'servicePrincipalKey' of 'LS_ADLS_GEN1_SRC'"
-		},
-		"LS_AZUREGEN2_SRC_accountKey": {
-			"type": "secureString",
-			"metadata": "Secure string for 'accountKey' of 'LS_AZUREGEN2_SRC'"
-		},
-		"LS_AZURE_GEN2_TGT_accountKey": {
-			"type": "secureString",
-			"metadata": "Secure string for 'accountKey' of 'LS_AZURE_GEN2_TGT'"
-		},
-		"LS_BLOB_SRC_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'LS_BLOB_SRC'"
-		},
-		"LS_ONPREM_ORLC_DB_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'LS_ONPREM_ORLC_DB'"
-		},
-		"LS_ADLS_GEN1_SRC_properties_typeProperties_dataLakeStoreUri": {
-			"type": "string",
-			"defaultValue": "https://gmkgen1storage.azuredatalakestore.net/webhdfs/v1"
-		},
-		"LS_ADLS_GEN1_SRC_properties_typeProperties_servicePrincipalId": {
-			"type": "string",
-			"defaultValue": "3016ff85-5469-45b1-8af7-c18d220bfe61"
-		},
-		"LS_ADLS_GEN1_SRC_properties_typeProperties_tenant": {
-			"type": "string",
-			"defaultValue": "b96c0f38-b91c-46f6-9ceb-e2f3a85e371e"
-		},
-		"LS_ADLS_GEN1_SRC_properties_typeProperties_subscriptionId": {
-			"type": "string",
-			"defaultValue": "48760eab-5c36-447f-9ee1-a7e29e6aa24d"
-		},
-		"LS_ADLS_GEN1_SRC_properties_typeProperties_resourceGroupName": {
-			"type": "string",
-			"defaultValue": "gmk"
-		},
-		"LS_AZUREGEN2_SRC_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "https://gmkgen2.dfs.core.windows.net"
-		},
-		"LS_AZURE_GEN2_TGT_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "https://gmkgen2.dfs.core.windows.net"
-		},
-		"LS_AzureKeyVault_properties_typeProperties_baseUrl": {
-			"type": "string",
-			"defaultValue": "https://gmk-valut.vault.azure.net/"
 		}
 	},
 	"variables": {
@@ -89,8 +33,7 @@
 						"typeProperties": {
 							"dataset": {
 								"referenceName": "DS_GEN_DEL",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							},
 							"logStorageSettings": {
 								"linkedServiceName": {
@@ -111,8 +54,7 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/DS_GEN_DEL')]",
-				"[concat(variables('factoryId'), '/linkedServices/LS_AZURE_GEN2_TGT')]"
+				"[concat(variables('factoryId'), '/datasets/DS_GEN_DEL')]"
 			]
 		},
 		{
@@ -136,15 +78,8 @@
 						"typeProperties": {
 							"dataflow": {
 								"referenceName": "JOINS",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"srcEMP": {},
-									"srcDEPT": {},
-									"sink1": {}
-								}
+								"type": "DataFlowReference"
 							},
-							"staging": {},
 							"compute": {
 								"coreCount": 8,
 								"computeType": "General"
@@ -155,9 +90,7 @@
 				],
 				"annotations": []
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/JOINS')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/JSONFLATTEN_PIP')]",
@@ -180,14 +113,8 @@
 						"typeProperties": {
 							"dataflow": {
 								"referenceName": "JSON_FLATTEN",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"source1": {},
-									"sink1": {}
-								}
+								"type": "DataFlowReference"
 							},
-							"staging": {},
 							"compute": {
 								"coreCount": 8,
 								"computeType": "General"
@@ -223,15 +150,8 @@
 						"typeProperties": {
 							"dataflow": {
 								"referenceName": "lookup",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"empsrc": {},
-									"deptsrc": {},
-									"sink1": {}
-								}
+								"type": "DataFlowReference"
 							},
-							"staging": {},
 							"compute": {
 								"coreCount": 8,
 								"computeType": "General"
@@ -261,15 +181,8 @@
 						"typeProperties": {
 							"dataflow": {
 								"referenceName": "CONDITIONALLY_SPLIT",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"source1": {},
-									"sink1": {},
-									"sink2": {}
-								}
+								"type": "DataFlowReference"
 							},
-							"staging": {},
 							"compute": {
 								"coreCount": 8,
 								"computeType": "General"
@@ -317,8 +230,7 @@
 							},
 							"dataset": {
 								"referenceName": "DS_ADLS_DEPT_FILE_SRC",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							},
 							"firstRowOnly": false
 						}
@@ -331,8 +243,7 @@
 						"typeProperties": {
 							"dataset": {
 								"referenceName": "DS_GEN2_COMPANYJSON_SRC",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							},
 							"timeout": "7.00:00:00",
 							"sleep": 10
@@ -346,8 +257,7 @@
 						"typeProperties": {
 							"dataset": {
 								"referenceName": "DS_BLOB_APPLE_FILE",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							},
 							"timeout": "7.00:00:00",
 							"sleep": 10
@@ -357,7 +267,6 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/DS_ADLS_DEPT_FILE_SRC')]",
 				"[concat(variables('factoryId'), '/datasets/DS_GEN2_COMPANYJSON_SRC')]",
 				"[concat(variables('factoryId'), '/datasets/DS_BLOB_APPLE_FILE')]"
 			]
@@ -390,8 +299,7 @@
 						"typeProperties": {
 							"dataset": {
 								"referenceName": "DS_BLOB_APPLE_FILE",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							},
 							"fieldList": [
 								"exists",
@@ -436,8 +344,7 @@
 								"referenceName": "left_join_pip",
 								"type": "PipelineReference"
 							},
-							"waitOnCompletion": true,
-							"parameters": {}
+							"waitOnCompletion": true
 						}
 					}
 				],
@@ -741,8 +648,7 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/source_folder_metadata_ds')]",
 				"[concat(variables('factoryId'), '/datasets/source_Adls_Ds')]",
-				"[concat(variables('factoryId'), '/datasets/Target_gen2_ds')]",
-				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase1')]"
+				"[concat(variables('factoryId'), '/datasets/Target_gen2_ds')]"
 			]
 		},
 		{
@@ -766,14 +672,8 @@
 						"typeProperties": {
 							"dataflow": {
 								"referenceName": "aggregate",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"source1": {},
-									"sink1": {}
-								}
+								"type": "DataFlowReference"
 							},
-							"staging": {},
 							"compute": {
 								"coreCount": 8,
 								"computeType": "General"
@@ -809,15 +709,8 @@
 						"typeProperties": {
 							"dataflow": {
 								"referenceName": "LEFT_JOIN",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"source1": {},
-									"source2": {},
-									"sink1": {}
-								}
+								"type": "DataFlowReference"
 							},
-							"staging": {},
 							"compute": {
 								"coreCount": 8,
 								"computeType": "General"
@@ -911,8 +804,7 @@
 							},
 							"dataset": {
 								"referenceName": "AzureSqlTable1",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							},
 							"firstRowOnly": false
 						}
@@ -923,164 +815,6 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/AzureSqlTable1')]",
 				"[concat(variables('factoryId'), '/pipelines/child_line_pip')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/onpremdb_gen2_copy_pipeline')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "ORCL_GEN2_COPY",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "OracleSource",
-								"partitionOption": "None",
-								"queryTimeout": "02:00:00"
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobFSWriteSettings"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSettings",
-									"quoteAllText": true,
-									"fileExtension": "EMPDATACOPY.txt"
-								}
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "EMPNO",
-											"type": "Decimal"
-										},
-										"sink": {
-											"name": "EMPNO",
-											"type": "Decimal",
-											"physicalType": "Decimal"
-										}
-									},
-									{
-										"source": {
-											"name": "ENAME",
-											"type": "String"
-										},
-										"sink": {
-											"name": "ENAME",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "JOB",
-											"type": "String"
-										},
-										"sink": {
-											"name": "JOB",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "MGR",
-											"type": "Decimal"
-										},
-										"sink": {
-											"name": "MGR",
-											"type": "Decimal",
-											"physicalType": "Decimal"
-										}
-									},
-									{
-										"source": {
-											"name": "HIREDATE",
-											"type": "DateTime"
-										},
-										"sink": {
-											"name": "HIREDATE",
-											"type": "DateTime",
-											"physicalType": "DateTime"
-										}
-									},
-									{
-										"source": {
-											"name": "SAL",
-											"type": "Decimal"
-										},
-										"sink": {
-											"name": "SAL",
-											"type": "Decimal",
-											"physicalType": "Decimal"
-										}
-									},
-									{
-										"source": {
-											"name": "COMM",
-											"type": "Decimal"
-										},
-										"sink": {
-											"name": "COMM",
-											"type": "Decimal",
-											"physicalType": "Decimal"
-										}
-									},
-									{
-										"source": {
-											"name": "DEPTNO",
-											"type": "Decimal"
-										},
-										"sink": {
-											"name": "DEPTNO",
-											"type": "Decimal",
-											"physicalType": "Decimal"
-										}
-									}
-								],
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "DS_ORCL_EMP_DATA",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "DS_GEN2_EMP_TGT",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/DS_ORCL_EMP_DATA')]",
-				"[concat(variables('factoryId'), '/datasets/DS_GEN2_EMP_TGT')]"
 			]
 		},
 		{
@@ -1104,14 +838,8 @@
 						"typeProperties": {
 							"dataflow": {
 								"referenceName": "RANKS",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"source1": {},
-									"sink1": {}
-								}
+								"type": "DataFlowReference"
 							},
-							"staging": {},
 							"compute": {
 								"coreCount": 8,
 								"computeType": "General"
@@ -1134,14 +862,8 @@
 						"typeProperties": {
 							"dataflow": {
 								"referenceName": "pivot",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"source1": {},
-									"sink1": {}
-								}
+								"type": "DataFlowReference"
 							},
-							"staging": {},
 							"compute": {
 								"coreCount": 8,
 								"computeType": "General"
@@ -1205,111 +927,7 @@
 					"table": "JOB_LIST"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/DS_ADLS_DEPT_FILE_SRC')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "LS_ADLS_GEN1_SRC",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureDataLakeStoreLocation",
-						"fileName": "dept.csv",
-						"folderPath": "SOURCE"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "Deptno",
-						"type": "String"
-					},
-					{
-						"name": "Dname",
-						"type": "String"
-					},
-					{
-						"name": "Loc",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/LS_ADLS_GEN1_SRC')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/DS_ADLS_EMP_FILE_SRC')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "LS_ADLS_GEN1_SRC",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureDataLakeStoreLocation",
-						"fileName": "emp.csv",
-						"folderPath": "SOURCE"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "EMPNO",
-						"type": "String"
-					},
-					{
-						"name": "ENAME",
-						"type": "String"
-					},
-					{
-						"name": "JOB",
-						"type": "String"
-					},
-					{
-						"name": "MGR",
-						"type": "String"
-					},
-					{
-						"name": "HIREDATE",
-						"type": "String"
-					},
-					{
-						"name": "SAL",
-						"type": "String"
-					},
-					{
-						"name": "COMM",
-						"type": "String"
-					},
-					{
-						"name": "DEPTNO",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/LS_ADLS_GEN1_SRC')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/DS_ADLS_UNPIVOT_CSV_SRC')]",
@@ -1352,9 +970,7 @@
 					}
 				]
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/LS_ADLS_GEN1_SRC')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/DS_BLOB_APPLE_FILE')]",
@@ -1376,9 +992,7 @@
 					}
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/LS_BLOB_SRC')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/DS_GEN2_COMPANYJSON_SRC')]",
@@ -1469,33 +1083,6 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/DS_GEN2_EMP_TGT')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "LS_AZURE_GEN2_TGT",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileSystem": "gen2storage"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/LS_AZURE_GEN2_TGT')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/DS_GEN_DEL')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -1514,30 +1101,7 @@
 					}
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/LS_AZURE_GEN2_TGT')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/DS_ORCL_EMP_DATA')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "LS_ONPREM_ORLC_DB",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "OracleTable",
-				"schema": [],
-				"typeProperties": {
-					"schema": "TECHLAKE",
-					"table": "EMP"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/LS_ONPREM_ORLC_DB')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/Target_gen2_ds')]",
@@ -1608,9 +1172,7 @@
 					}
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/LS_ADLS_GEN1_SRC')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/source_folder_metadata_ds')]",
@@ -1641,42 +1203,6 @@
 					}
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/LS_ADLS_GEN1_SRC')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureSqlDatabase1')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureSqlDatabase",
-				"typeProperties": {
-					"connectionString": "[parameters('AzureSqlDatabase1_connectionString')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/LS_ADLS_GEN1_SRC')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureDataLakeStore",
-				"typeProperties": {
-					"dataLakeStoreUri": "[parameters('LS_ADLS_GEN1_SRC_properties_typeProperties_dataLakeStoreUri')]",
-					"servicePrincipalId": "[parameters('LS_ADLS_GEN1_SRC_properties_typeProperties_servicePrincipalId')]",
-					"servicePrincipalKey": {
-						"type": "SecureString",
-						"value": "[parameters('LS_ADLS_GEN1_SRC_servicePrincipalKey')]"
-					},
-					"tenant": "[parameters('LS_ADLS_GEN1_SRC_properties_typeProperties_tenant')]",
-					"subscriptionId": "[parameters('LS_ADLS_GEN1_SRC_properties_typeProperties_subscriptionId')]",
-					"resourceGroupName": "[parameters('LS_ADLS_GEN1_SRC_properties_typeProperties_resourceGroupName')]"
-				}
-			},
 			"dependsOn": []
 		},
 		{
@@ -1687,71 +1213,12 @@
 				"annotations": [],
 				"type": "AzureBlobFS",
 				"typeProperties": {
-					"url": "[parameters('LS_AZUREGEN2_SRC_properties_typeProperties_url')]",
+					"url": "https://gmkgen2.dfs.core.windows.net",
 					"accountKey": {
 						"type": "SecureString",
-						"value": "[parameters('LS_AZUREGEN2_SRC_accountKey')]"
+						"value": "**********"
 					}
 				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/LS_AZURE_GEN2_TGT')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureBlobFS",
-				"typeProperties": {
-					"url": "[parameters('LS_AZURE_GEN2_TGT_properties_typeProperties_url')]",
-					"accountKey": {
-						"type": "SecureString",
-						"value": "[parameters('LS_AZURE_GEN2_TGT_accountKey')]"
-					}
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/LS_BLOB_SRC')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureBlobStorage",
-				"typeProperties": {
-					"connectionString": "[parameters('LS_BLOB_SRC_connectionString')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/LS_ONPREM_ORLC_DB')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "Oracle",
-				"typeProperties": {
-					"connectionString": "[parameters('LS_ONPREM_ORLC_DB_connectionString')]"
-				},
-				"connectVia": {
-					"referenceName": "selfhosted-ir",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/selfhosted-ir')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/selfhosted-ir')]",
-			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "SelfHosted",
-				"typeProperties": {}
 			},
 			"dependsOn": []
 		},
@@ -1795,62 +1262,7 @@
 					"script": "source(output(\n\t\tEMPNO as string,\n\t\tENAME as string,\n\t\tJOB as string,\n\t\tMGR as string,\n\t\tHIREDATE as string,\n\t\tSAL as string,\n\t\tCOMM as string,\n\t\tDEPTNO as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> source1\nsource1 split(DEPTNO=='10',\n\tdisjoint: false) ~> ConditionalSplit1@(DEPT10, DEPTALL)\nConditionalSplit1@DEPT10 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['DEPT10'],\n\tpartitionBy('hash', 1),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sink1\nConditionalSplit1@DEPTALL sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['DEPTALL'],\n\tpartitionBy('hash', 1),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sink2"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/DS_ADLS_EMP_FILE_SRC')]",
-				"[concat(variables('factoryId'), '/datasets/DS_GEN2_EMP_TGT')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/JOINS')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "DS_ADLS_EMP_FILE_SRC",
-								"type": "DatasetReference"
-							},
-							"name": "srcEMP"
-						},
-						{
-							"dataset": {
-								"referenceName": "DS_ADLS_DEPT_FILE_SRC",
-								"type": "DatasetReference"
-							},
-							"name": "srcDEPT"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "DS_GEN2_EMP_TGT",
-								"type": "DatasetReference"
-							},
-							"name": "sink1"
-						}
-					],
-					"transformations": [
-						{
-							"name": "Join1"
-						},
-						{
-							"name": "Filter1"
-						},
-						{
-							"name": "Sort1"
-						}
-					],
-					"script": "source(output(\n\t\tEMPNO as string,\n\t\tENAME as string,\n\t\tJOB as string,\n\t\tMGR as string,\n\t\tHIREDATE as string,\n\t\tSAL as string,\n\t\tCOMM as string,\n\t\tDEPTNO as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> srcEMP\nsource(output(\n\t\tDeptno as string,\n\t\tDname as string,\n\t\tLoc as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> srcDEPT\nsrcEMP, srcDEPT join(srcEMP@DEPTNO == srcDEPT@Deptno,\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> Join1\nJoin1 filter(srcEMP@DEPTNO=='10') ~> Filter1\nFilter1 sort(desc(EMPNO, true),\n\tcaseInsensitive: true) ~> Sort1\nSort1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sink1"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/DS_ADLS_EMP_FILE_SRC')]",
-				"[concat(variables('factoryId'), '/datasets/DS_ADLS_DEPT_FILE_SRC')]",
-				"[concat(variables('factoryId'), '/datasets/DS_GEN2_EMP_TGT')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/JSON_FLATTEN')]",
@@ -1939,11 +1351,7 @@
 					"script": "source(output(\n\t\tEMPNO as string,\n\t\tENAME as string,\n\t\tJOB as string,\n\t\tMGR as string,\n\t\tHIREDATE as string,\n\t\tSAL as string,\n\t\tCOMM as string,\n\t\tDEPTNO as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> source1\nsource(output(\n\t\tDeptno as string,\n\t\tDname as string,\n\t\tLoc as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> source2\nsource1, source2 join(source1@DEPTNO == source2@Deptno,\n\tjoinType:'left',\n\tbroadcast: 'auto')~> Join1\nJoin1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['left_join'],\n\tpartitionBy('hash', 1),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sink1"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/DS_ADLS_EMP_FILE_SRC')]",
-				"[concat(variables('factoryId'), '/datasets/DS_ADLS_DEPT_FILE_SRC')]",
-				"[concat(variables('factoryId'), '/datasets/DS_GEN2_EMP_TGT')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/RANKS')]",
@@ -1981,10 +1389,7 @@
 					"script": "source(output(\n\t\tEMPNO as string,\n\t\tENAME as string,\n\t\tJOB as string,\n\t\tMGR as string,\n\t\tHIREDATE as string,\n\t\tSAL as string,\n\t\tCOMM as string,\n\t\tDEPTNO as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> source1\nsource1 rank(desc(SAL, true),\n\toutput(RANK as long)) ~> Rank1\nRank1 rank(desc(SAL, true),\n\toutput(DENSE_RANK as long),\n\tdense: true) ~> Rank2\nRank2 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['RANKING'],\n\tpartitionBy('hash', 1),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sink1"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/DS_ADLS_EMP_FILE_SRC')]",
-				"[concat(variables('factoryId'), '/datasets/DS_GEN2_EMP_TGT')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/WINDOW_FLOW')]",
@@ -2019,10 +1424,7 @@
 					"script": "source(output(\n\t\tEMPNO as string,\n\t\tENAME as string,\n\t\tJOB as string,\n\t\tMGR as string,\n\t\tHIREDATE as string,\n\t\tSAL as string,\n\t\tCOMM as string,\n\t\tDEPTNO as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> empsrc\nempsrc window(over(JOBNAME = JOB),\n\tdesc(toInteger(SAL), true),\n\tRANK = rank(),\n\t\tDENSE_RANK = denseRank(),\n\t\tLEAD = lead(SAL),\n\t\tLAG = lag(SAL),\n\t\tCUMM_SAL = sum(toInteger(SAL))) ~> Window1\nWindow1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['window.csv'],\n\tpartitionBy('hash', 1),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sink1"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/DS_ADLS_EMP_FILE_SRC')]",
-				"[concat(variables('factoryId'), '/datasets/DS_GEN2_EMP_TGT')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/aggregate')]",
@@ -2057,10 +1459,7 @@
 					"script": "source(output(\n\t\tEMPNO as string,\n\t\tENAME as string,\n\t\tJOB as string,\n\t\tMGR as string,\n\t\tHIREDATE as string,\n\t\tSAL as string,\n\t\tCOMM as string,\n\t\tDEPTNO as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> source1\nsource1 aggregate(groupBy(JOB),\n\tsum_salary = sum(toInteger(SAL)),\n\t\tmax_sal = max(toInteger(SAL))) ~> Aggregate1\nAggregate1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['aggregateemp1'],\n\tpartitionBy('hash', 1),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sink1"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/DS_ADLS_EMP_FILE_SRC')]",
-				"[concat(variables('factoryId'), '/datasets/DS_GEN2_EMP_TGT')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/lookup')]",
@@ -2108,11 +1507,7 @@
 					"script": "source(output(\n\t\tEMPNO as string,\n\t\tENAME as string,\n\t\tJOB as string,\n\t\tMGR as string,\n\t\tHIREDATE as string,\n\t\tSAL as string,\n\t\tCOMM as string,\n\t\tDEPTNO as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> empsrc\nsource(output(\n\t\tDeptno as string,\n\t\tDname as string,\n\t\tLoc as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> deptsrc\nempsrc, deptsrc lookup(empsrc@DEPTNO == deptsrc@Deptno,\n\tmultiple: false,\n\tpickup: 'any',\n\tbroadcast: 'auto')~> Lookup1\nLookup1 derive(TOTAL_SALARY = toInteger(SAL)+iifNull(toInteger(COMM),0)) ~> DerivedColumn1\nDerivedColumn1 select(mapColumn(\n\t\tEMPNO,\n\t\tFULL_NAME = ENAME,\n\t\tJOB,\n\t\tMGR,\n\t\tHIREDATE,\n\t\tDEPTNO = empsrc@DEPTNO,\n\t\tDeptno = deptsrc@Deptno,\n\t\tDname,\n\t\tLoc,\n\t\tTOTAL_SALARY\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select1\nSelect1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sink1"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/DS_ADLS_EMP_FILE_SRC')]",
-				"[concat(variables('factoryId'), '/datasets/DS_ADLS_DEPT_FILE_SRC')]",
-				"[concat(variables('factoryId'), '/datasets/DS_GEN2_EMP_TGT')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/pivot')]",
@@ -2147,10 +1542,7 @@
 					"script": "source(output(\n\t\tEMPNO as string,\n\t\tENAME as string,\n\t\tJOB as string,\n\t\tMGR as string,\n\t\tHIREDATE as string,\n\t\tSAL as string,\n\t\tCOMM as string,\n\t\tDEPTNO as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> source1\nsource1 pivot(groupBy(JOB),\n\tpivotBy(DEPTNO),\n\tSAL = sum(toInteger(SAL)),\n\tcolumnNaming: '$N$V',\n\tlateral: true) ~> Pivot1\nPivot1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['PIVOTOUTPUT'],\n\tpartitionBy('hash', 1),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sink1"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/DS_ADLS_EMP_FILE_SRC')]",
-				"[concat(variables('factoryId'), '/datasets/DS_GEN2_EMP_TGT')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/unpivot')]",
@@ -2186,8 +1578,7 @@
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/DS_ADLS_UNPIVOT_CSV_SRC')]",
-				"[concat(variables('factoryId'), '/datasets/DS_GEN2_EMP_TGT')]"
+				"[concat(variables('factoryId'), '/datasets/DS_ADLS_UNPIVOT_CSV_SRC')]"
 			]
 		},
 		{
@@ -2198,7 +1589,7 @@
 				"annotations": [],
 				"type": "AzureKeyVault",
 				"typeProperties": {
-					"baseUrl": "[parameters('LS_AzureKeyVault_properties_typeProperties_baseUrl')]"
+					"baseUrl": "https://gmk-valut.vault.azure.net/"
 				}
 			},
 			"dependsOn": []

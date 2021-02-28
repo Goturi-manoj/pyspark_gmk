@@ -5,10 +5,19 @@
 		"factoryName": {
 			"value": "practiceaureadfv2-gmk"
 		},
+		"AzureSqlDatabase1_connectionString": {
+			"value": ""
+		},
 		"LS_ADLS_GEN1_SRC_servicePrincipalKey": {
 			"value": ""
 		},
+		"LS_AZUREGEN2_SRC_accountKey": {
+			"value": ""
+		},
 		"LS_AZURE_GEN2_TGT_accountKey": {
+			"value": ""
+		},
+		"LS_BLOB_SRC_connectionString": {
 			"value": ""
 		},
 		"LS_ONPREM_ORLC_DB_connectionString": {
@@ -29,8 +38,14 @@
 		"LS_ADLS_GEN1_SRC_properties_typeProperties_resourceGroupName": {
 			"value": "gmk"
 		},
+		"LS_AZUREGEN2_SRC_properties_typeProperties_url": {
+			"value": "https://gmkgen2.dfs.core.windows.net"
+		},
 		"LS_AZURE_GEN2_TGT_properties_typeProperties_url": {
 			"value": "https://gmkgen2.dfs.core.windows.net"
+		},
+		"LS_AzureKeyVault_properties_typeProperties_baseUrl": {
+			"value": "https://gmk-valut.vault.azure.net/"
 		}
 	}
 }
