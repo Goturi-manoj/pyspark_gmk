@@ -38,7 +38,7 @@
 					"notebookPath": "/phase1/ETL/Read_Write_ADLSGen2_Files",
 					"baseParameters": {
 						"processed_date": {
-							"value": "2021/02/25",
+							"value": "2021/02/22",
 							"type": "Expression"
 						},
 						"sourcetablename": "cust"
