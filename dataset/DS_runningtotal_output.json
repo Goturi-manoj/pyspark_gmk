@@ -10,7 +10,6 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "runningtotal_output.csv",
 				"folderPath": "files",
 				"fileSystem": "wafacontainer"
 			},
