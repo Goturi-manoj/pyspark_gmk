@@ -1,5 +1,5 @@
 {
-	"name": "DS_wafatarget",
+	"name": "DS_empwafa2",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "LS_wafa_gen2",
@@ -10,7 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "target_wafaemp2.csv",
+				"fileName": "empswafa2.csv",
 				"folderPath": "files",
 				"fileSystem": "wafacontainer"
 			},
@@ -19,6 +19,23 @@
 			"firstRowAsHeader": true,
 			"quoteChar": "\""
 		},
-		"schema": []
+		"schema": [
+			{
+				"name": "empid",
+				"type": "String"
+			},
+			{
+				"name": "name",
+				"type": "String"
+			},
+			{
+				"name": "country",
+				"type": "String"
+			},
+			{
+				"name": "department",
+				"type": "String"
+			}
+		]
 	}
 }
