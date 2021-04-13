@@ -1,0 +1,48 @@
+{
+	"name": "errorrows",
+	"properties": {
+		"folder": {
+			"name": "wafadf"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_salesind",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DS_indsaleserrorrows",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_indsalesgoodrows",
+						"type": "DatasetReference"
+					},
+					"name": "sink2"
+				}
+			],
+			"transformations": [
+				{
+					"name": "ConditionalSplit1"
+				},
+				{
+					"name": "filenamecolumnforerrorrows"
+				},
+				{
+					"name": "filenamecolumnforgoodrows"
+				}
+			],
+			"script": "source(output(\n\t\tsalesDate as string,\n\t\tsalesName as string,\n\t\tcountry as string,\n\t\tquantity as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> source1\nsource1 split(isNull(toDate(salesDate,'dd-MMM-yyyy')),\n\tdisjoint: false) ~> ConditionalSplit1@(errorrows, goodrows)\nConditionalSplit1@errorrows derive(filename = 'Salesind_2020_MAY_01') ~> filenamecolumnforerrorrows\nConditionalSplit1@goodrows derive(filename = 'Salesind_2020_MAY_01',\n\t\tsalesDate = toDate(salesDate, 'dd-MMM-yyyy'),\n\t\tquantity = toInteger(quantity)) ~> filenamecolumnforgoodrows\nfilenamecolumnforerrorrows sink(input(\n\t\tsalesDate as string,\n\t\tsalesName as string,\n\t\tcountry as string,\n\t\tquantity as string,\n\t\tfilenames as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tmapColumn(\n\t\tsalesDate,\n\t\tsalesName,\n\t\tcountry,\n\t\tquantity,\n\t\tfilenames = filename\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> sink1\nfilenamecolumnforgoodrows sink(input(\n\t\tsalesDate as date,\n\t\tsalesName as string,\n\t\tcountry as string,\n\t\tquantity as integer,\n\t\tfilenames as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tmapColumn(\n\t\tsalesDate,\n\t\tsalesName,\n\t\tcountry,\n\t\tquantity,\n\t\tfilenames = filename\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> sink2"
+		}
+	}
+}

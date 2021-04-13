@@ -1,0 +1,41 @@
+{
+	"name": "DS_salesind",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_BLOB_SRC",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "Salesind_2020_MAY_01",
+				"folderPath": "GlobalSales",
+				"container": "wafademo"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "salesDate",
+				"type": "String"
+			},
+			{
+				"name": "salesName",
+				"type": "String"
+			},
+			{
+				"name": "country",
+				"type": "String"
+			},
+			{
+				"name": "quantity",
+				"type": "String"
+			}
+		]
+	}
+}

@@ -1,0 +1,37 @@
+{
+	"name": "DS_indsaleserrorrows",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "salesDate",
+				"type": "varchar"
+			},
+			{
+				"name": "salesName",
+				"type": "varchar"
+			},
+			{
+				"name": "country",
+				"type": "varchar"
+			},
+			{
+				"name": "quantity",
+				"type": "varchar"
+			},
+			{
+				"name": "filenames",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "indiasaleserrorrows"
+		}
+	}
+}
