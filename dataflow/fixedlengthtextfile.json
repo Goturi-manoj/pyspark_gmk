@@ -1,0 +1,38 @@
+{
+	"name": "fixedlengthtextfile",
+	"properties": {
+		"folder": {
+			"name": "wafadf"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_fixedlengthfile",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DS_fixedlengthfileoutput",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "DerivedColumn1"
+				},
+				{
+					"name": "Select1"
+				}
+			],
+			"script": "source(output(\n\t\tColumn_1 as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> source1\nsource1 derive(id = substring(Column_1, 0, 4),\n\t\tname = substring(Column_1, 5, 10),\n\t\ttranscation_no = substring(Column_1, 15)) ~> DerivedColumn1\nDerivedColumn1 select(mapColumn(\n\t\tid,\n\t\tname,\n\t\ttranscation_no\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select1\nSelect1 sink(input(\n\t\tCredit_ID as string,\n\t\tCard_Type as string,\n\t\tCredit_Name as string,\n\t\tCredit_Score as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['fixedsizefileoutput.csv'],\n\tpartitionBy('hash', 1),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sink1"
+		}
+	}
+}
