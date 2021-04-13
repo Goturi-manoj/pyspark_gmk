@@ -81,6 +81,9 @@
 				}
 			}
 		],
+		"folder": {
+			"name": "old_pip"
+		},
 		"annotations": []
 	}
 }

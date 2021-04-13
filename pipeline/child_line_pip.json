@@ -284,6 +284,9 @@
 				"type": "string"
 			}
 		},
+		"folder": {
+			"name": "old_pip"
+		},
 		"annotations": []
 	}
 }
