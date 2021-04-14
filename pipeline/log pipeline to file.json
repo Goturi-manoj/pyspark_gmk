@@ -1,0 +1,9 @@
+{
+	"name": "log pipeline to file",
+	"properties": {
+		"folder": {
+			"name": "wafa"
+		},
+		"annotations": []
+	}
+}
