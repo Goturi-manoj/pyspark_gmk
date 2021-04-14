@@ -1,0 +1,48 @@
+{
+	"name": "DF_logdetails_append",
+	"properties": {
+		"folder": {
+			"name": "wafadf"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_dummyfile",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_loggingfile",
+						"type": "DatasetReference"
+					},
+					"name": "source2"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DS_logfile",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "DerivedColumn1"
+				},
+				{
+					"name": "Select1"
+				},
+				{
+					"name": "Union1"
+				}
+			],
+			"script": "parameters{\n\tADFName as string,\n\tPipelineName as string,\n\tstatus as string,\n\trunid as string,\n\ttriggername as string,\n\tlogFileName as string\n}\nsource(output(\n\t\tColumn_1 as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> source1\nsource(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\twildcardPaths:[('log/'+$logFileName )]) ~> source2\nsource1 derive(ADFName = $ADFName,\n\t\tPipelineName = $PipelineName,\n\t\tstatus = $status,\n\t\trunid = $runid,\n\t\ttriggername = $triggername) ~> DerivedColumn1\nDerivedColumn1 select(mapColumn(\n\t\tADFName,\n\t\tPipelineName,\n\t\tstatus,\n\t\trunid,\n\t\ttriggername\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select1\nSelect1, source2 union(byName: true)~> Union1\nUnion1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:[($logFileName)],\n\tpartitionBy('hash', 1),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sink1"
+		}
+	}
+}

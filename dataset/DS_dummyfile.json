@@ -1,0 +1,27 @@
+{
+	"name": "DS_dummyfile",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_BLOB_SRC",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "dummy.txt",
+				"folderPath": "input",
+				"container": "wafademo"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"type": "String"
+			}
+		]
+	}
+}
