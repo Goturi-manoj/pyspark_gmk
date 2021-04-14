@@ -1,0 +1,23 @@
+{
+	"name": "DS_logfile",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_BLOB_SRC",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"folderPath": "log",
+				"container": "wafademo"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}
