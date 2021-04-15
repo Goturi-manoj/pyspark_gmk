@@ -1,0 +1,67 @@
+{
+	"name": "df_empscd2",
+	"properties": {
+		"folder": {
+			"name": "wafadf"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_empcd2file",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_empscd2table",
+						"type": "DatasetReference"
+					},
+					"name": "source2"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DS_empscd2table",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_empscd2table",
+						"type": "DatasetReference"
+					},
+					"name": "sink2"
+				}
+			],
+			"transformations": [
+				{
+					"name": "DerivedColumn1"
+				},
+				{
+					"name": "Select1"
+				},
+				{
+					"name": "Lookup1"
+				},
+				{
+					"name": "Filter1"
+				},
+				{
+					"name": "Select2"
+				},
+				{
+					"name": "AlterRow1"
+				},
+				{
+					"name": "DerivedColumn2"
+				}
+			],
+			"script": "source(output(\n\t\tempid as integer,\n\t\tempname as string,\n\t\tgender as string,\n\t\tcountry as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> source1\nsource(output(\n\t\tsurkey as integer,\n\t\tempid as integer,\n\t\tempname as string,\n\t\tgender as string,\n\t\tcountry as string,\n\t\tisActive as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> source2\nsource1 derive(isActive = 1) ~> DerivedColumn1\nsource2 select(mapColumn(\n\t\tSQL_surkey = surkey,\n\t\tSQL_empid = empid,\n\t\tSQL_empname = empname,\n\t\tSQL_gender = gender,\n\t\tSQL_country = country,\n\t\tSQL_isActive = isActive\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select1\nsource1, Select1 lookup(empid == SQL_empid,\n\tmultiple: true,\n\tbroadcast: 'auto')~> Lookup1\nLookup1 filter(!isNull(SQL_empid)) ~> Filter1\nFilter1 select(mapColumn(\n\t\tSQL_surkey,\n\t\tSQL_empid,\n\t\tSQL_empname,\n\t\tSQL_gender,\n\t\tSQL_country,\n\t\tSQL_isActive\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select2\nDerivedColumn2 alterRow(updateIf(1==1)) ~> AlterRow1\nSelect2 derive(SQL_isActive = 0) ~> DerivedColumn2\nAlterRow1 sink(input(\n\t\tsurkey as integer,\n\t\tempid as integer,\n\t\tempname as string,\n\t\tgender as string,\n\t\tcountry as string,\n\t\tisActive as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:true,\n\tupsertable:false,\n\tkeys:['surkey'],\n\tformat: 'table',\n\tmapColumn(\n\t\tsurkey = SQL_surkey,\n\t\tempid = SQL_empid,\n\t\tempname = SQL_empname,\n\t\tgender = SQL_gender,\n\t\tcountry = SQL_country,\n\t\tisActive = SQL_isActive\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\tsaveOrder: 1,\n\terrorHandlingOption: 'stopOnFirstError') ~> sink1\nDerivedColumn1 sink(input(\n\t\tsurkey as integer,\n\t\tempid as integer,\n\t\tempname as string,\n\t\tgender as string,\n\t\tcountry as string,\n\t\tisActive as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tmapColumn(\n\t\tempid,\n\t\tempname,\n\t\tgender,\n\t\tcountry,\n\t\tisActive\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\tsaveOrder: 2,\n\terrorHandlingOption: 'stopOnFirstError') ~> sink2"
+		}
+	}
+}
